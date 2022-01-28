@@ -1,0 +1,119 @@
+*,
+*::after,
+*::before {
+    font-family: 'Oswald', sans-serif;
+    font-family: 'Roboto Mono', monospace;
+    box-sizing: border-box;
+}
+
+:root {
+    --hue: 200;
+    --saturation: 50%;
+    --foreground_color: hsl(var(--hue), var(--saturation), 75%);
+    --border_color: hsl(var(--hue), var(--saturation), 50%);
+    --background_color: hsl(var(--hue), var(--saturation), 20%);
+}
+
+body {
+    margin: 0;
+    background-color: var(--background_color);
+    overflow: hidden;
+}
+
+.paddle {
+
+    --position: 50;
+    position: absolute;
+    background-color: var(--foreground_color);
+    top: calc(var(--position) * 1vh);
+    transform: translateY(-50%);
+    width: 1.3vh;
+    height: 13vh;
+    border: solid 0.25vh var(--border_color);
+}
+
+.paddle.left {
+    left: 0.8vw;
+}
+
+.paddle.right {
+    right: 0.8vw;
+}
+
+.ball {
+
+    --x: 50;
+    --y: 50;
+
+    position: absolute;
+    background-color: var(--foreground_color);
+    left: calc(var(--x) * 1vw);
+    top: calc(var(--y) * 1vh);
+    transform: translate(-50%, -50%);
+    width: 2.5vh;
+    height: 2.5vh;
+    border-radius: 50%;
+    border: solid 0.25vh var(--border_color);
+}
+
+.score {
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 7vh;
+    color: var(--foreground_color);
+}
+
+.score>* {
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0 2vh;
+    margin: 1vh 0;
+    opacity: .5;
+}
+
+.score> :first-child {
+    text-align: right;
+    border-right: 0.5vh solid var(--foreground_color);
+
+}
+
+.Menu {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 20vh;
+
+}
+
+.Menu button {
+
+    background: none;
+    border: none;
+    font-weight: lighter;
+    font-size: 12vh;
+    opacity: 0.4;
+    color: var(--foreground_color);
+    text-shadow: 0.25vh 0.25vh 1vh rgba(0, 0, 0, 0.2);
+    transition: text-shadow 0.5s;
+}
+
+
+.Menu button:hover {
+    text-shadow: 0.4vh 0.4vh 2.5vh rgba(0, 0, 0, 1);
+    cursor: pointer;
+}
+
+.fade-out {
+    visibility: hidden;
+    transition: visiblity 0.3s linear, opacity 0.3s, linear;
+    opacity: 0;
+
+}
+
+.fade-in {
+    visibility: visible;
+    transition: visiblity 0.3s linear, opacity 0.3s, linear;
+    opacity: 1;
+}
