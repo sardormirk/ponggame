@@ -1,6 +1,7 @@
 import Ball from "./Ball.js"
 import Paddle from "./paddle.js"
 
+
 const ball = new Ball(document.getElementById("ball"));
 const playerPaddle = new Paddle(document.getElementById("player_paddle"));
 const computerPaddle = new Paddle(document.getElementById("computer_paddle"));
@@ -9,12 +10,21 @@ const computerScore = document.getElementById("computer_score");
 const button = document.getElementById("button");
 let lastTime;
 
+var lose = new Audio("sounds/loss.wav");
+var winner  = new Audio("sounds/win.wav");
+var game_running;
+
 button.addEventListener("click", game);
 
 function game() {
+    game_running = true;
 
+    if(game_running == true){
     button.style.visibility = "hidden";
+    lastTime = null;
     window.requestAnimationFrame(update);
+    
+    }
     
 }
 
@@ -22,7 +32,9 @@ function game() {
 
 function update(time){
     
-    document.addEventListener("mousemove", e => {
+
+    if(game_running == true){
+        document.addEventListener("mousemove", e => {
         playerPaddle.pos = (e.y / window.innerHeight) * 100;
     });
 
@@ -34,18 +46,17 @@ function update(time){
         document.documentElement.style.setProperty("--hue", hue+delta * 0.01);
     }
 
+    
     if(isLose()){
         handleLose();
         
-    }else{
-
-        
-        window.requestAnimationFrame(update);
-         
-    }
-
+    }  
+    window.requestAnimationFrame(update);
     lastTime = time;
     
+    
+    
+    }
 }
 
 function isLose(){
@@ -55,21 +66,29 @@ function isLose(){
 }
 
 function handleLose(){
+    winner.currentTime = 0;
+    lose.currentTime = 0;
     const bound = ball.collisionBoundary();
     if(bound.right >= window.innerWidth){
+        winner.play();
         playerScore.textContent = parseInt(playerScore.textContent) + 1;
+
     }else{
+        lose.play();
         computerScore.textContent = parseInt(computerScore.textContent) + 1;
     }
+
+    button.textContent = "CONTINUE";
+    button.style.visibility = "visible";
+    game_running = false;
+    console.log(game_running);
     ball.reset();
     computerPaddle.reset();
     playerPaddle.reset();
 
-    button.textContent = "CONTINUE";
-    button.style.visibility = "visible";
+    
 
 
 
 }
 
-window.requestAnimationFrame();

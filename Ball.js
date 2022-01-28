@@ -1,5 +1,10 @@
 const INIT_VELOCITY = 0.03;
-const INCREASE_VELOCITY = 0.00001;
+const INCREASE_VELOCITY = 0.00002;
+
+
+var paddleTap = new Audio("sounds/paddlehit.wav");
+paddleTap.currentTime = 0;
+
 export default class Ball {
     constructor(ballElem) {
         this.ballElem = ballElem;
@@ -66,10 +71,14 @@ function randNumBetween(min, max){
 }
 
 function isCollision(rect1, rect2){
-    return (
+    
+    if(
         rect1.left <= rect2.right &&
         rect1.right >= rect2.left &&
         rect1.top <= rect2.bottom &&
-        rect1.bottom >= rect2.top)
+        rect1.bottom >= rect2.top) {
+            paddleTap.play();
+            return true;
+        }
       
 }
